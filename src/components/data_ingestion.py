@@ -7,6 +7,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 import time
+from src.components.data_transformation import DataTransformation, DataTransformationConfig
+
 
 
 @dataclass
@@ -68,4 +70,12 @@ if __name__=="__main__":
     data_ingestion_time = round((data_ingestion_end_time - data_ingestion_start_time),2)
     logging.info(f"data ingestion completed in {data_ingestion_time} secs")
     print(f"data ingestion completed in {data_ingestion_time} secs")
+
+    data_transformation=DataTransformation()
+    training_arr,test_arr,_=data_transformation.initiate_data_transformation(training_data,test_data)
+    data_transformation_end_time = time.time()
+    data_transformation_time = round((data_transformation_end_time - data_ingestion_end_time),2)
+    logging.info(f"data transformation completed in {data_transformation_time} secs")
+    print(f"data transformation completed in {data_transformation_time} secs")
+
     print('-'*100)
