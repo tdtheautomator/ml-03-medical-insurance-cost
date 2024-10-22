@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 import time
 from src.components.data_transformation import DataTransformation, DataTransformationConfig
-
+from src.components.training_model import TrainingModel, TrainingModelConfig
 
 
 @dataclass
@@ -78,4 +78,17 @@ if __name__=="__main__":
     logging.info(f"data transformation completed in {data_transformation_time} secs")
     print(f"data transformation completed in {data_transformation_time} secs")
 
+    modeltrainer=TrainingModel()
+    results = modeltrainer.initiate_training_model(training_arr,test_arr)
+    accuracy = round(results[0]*100,2)
+    training_model_end_time = time.time()
+    training_model_time = round((training_model_end_time - data_transformation_end_time),2)
+    total_time = round((training_model_end_time - data_ingestion_start_time),2)
+    logging.info(f"training model completed in {training_model_time} secs")
+    logging.info(f"execution completed in {training_model_time} secs with best accuracy of {accuracy} % using {results[1]} model")
+    print(f"model training completed in {training_model_time} secs")
+    print(f"logs directory: ./logs")
+    print(f"output directory: ./outputs")
+    print('-'*100)
+    print(f"total execution completed in {training_model_time} secs with best accuracy of {accuracy} % using {results[1]} model")
     print('-'*100)
