@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/967408132252830037/38fcbb58047744378c92bc24c4b1a8dc/artifacts
+end_time: 1729706355068
+entry_point_name: ''
+experiment_id: '967408132252830037'
+lifecycle_stage: active
+run_id: 38fcbb58047744378c92bc24c4b1a8dc
+run_name: luxuriant-kit-951
+run_uuid: 38fcbb58047744378c92bc24c4b1a8dc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729706353860
+status: 3
+tags: []
+user_id: Trishal Doshi

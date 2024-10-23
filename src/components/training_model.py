@@ -80,7 +80,7 @@ class TrainingModel:
                 "Lasso Regression": {},
                 "Ridge Regression": {},
                 "XG Boost Regressor": {}, 
-                "Gradient Boos Regressor": {},
+                "Gradient Boost Regressor": {},
                 "Adaptive Boost Regressor": {},
                 "K-Neighbors Regressor": {},
             }

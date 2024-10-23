@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/967408132252830037/974dc0c2978d4131982d10443aff59fe/artifacts
+end_time: 1729706355421
+entry_point_name: ''
+experiment_id: '967408132252830037'
+lifecycle_stage: active
+run_id: 974dc0c2978d4131982d10443aff59fe
+run_name: merciful-ram-458
+run_uuid: 974dc0c2978d4131982d10443aff59fe
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729706355133
+status: 3
+tags: []
+user_id: Trishal Doshi

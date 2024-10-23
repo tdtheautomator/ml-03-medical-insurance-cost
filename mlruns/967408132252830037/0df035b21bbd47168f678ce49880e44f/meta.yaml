@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/967408132252830037/0df035b21bbd47168f678ce49880e44f/artifacts
+end_time: 1729706355598
+entry_point_name: ''
+experiment_id: '967408132252830037'
+lifecycle_stage: active
+run_id: 0df035b21bbd47168f678ce49880e44f
+run_name: bouncy-yak-656
+run_uuid: 0df035b21bbd47168f678ce49880e44f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729706355472
+status: 3
+tags: []
+user_id: Trishal Doshi

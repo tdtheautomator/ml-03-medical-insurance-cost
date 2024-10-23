@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/967408132252830037/4447197a966146a6be75660afc9520f8/artifacts
+end_time: 1729706331141
+entry_point_name: ''
+experiment_id: '967408132252830037'
+lifecycle_stage: active
+run_id: 4447197a966146a6be75660afc9520f8
+run_name: wistful-carp-379
+run_uuid: 4447197a966146a6be75660afc9520f8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729706330812
+status: 3
+tags: []
+user_id: Trishal Doshi

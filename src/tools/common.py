@@ -214,20 +214,15 @@ def evaluate_model_best_param_gsv_mlflow(X_train, y_train,X_test,y_test,models,p
                 model.set_params(**gs.best_params_)
                 model.fit(X_train, y_train)
                 y_test_pred = model.predict(X_test)
-                performance_metrics = get_model_performance_metrics(y_test, y_test_pred)
-                test_model_score = performance_metrics[3]
+                (mae, mse, rmse, r2_sc) = get_model_performance_metrics(y_test, y_test_pred)
+                test_model_score = r2_sc
                 report[list(models.keys())[i]] = test_model_score
-                logging.info(f'{model_name} | MAE : {performance_metrics[0]}, MSE : {performance_metrics[1]}, RMSE : {performance_metrics[2]}, R2 Score : {performance_metrics[3]}')
-                #m1=model_name
-                #m2={performance_metrics[0]}
-                #m3={performance_metrics[1]}
-                #m4={performance_metrics[2]}
-                #m5={performance_metrics[3]}
-                #mlflow.log_metric("Model Name", m1)
-                #mlflow.log_metric("mae", m2)
-                #mlflow.log_metric("mse",m3)
-                #mlflow.log_metric("rmse",m4)
-                #mlflow.log_metric("r2",m5)
+                logging.info(f'Model Name: {model_name} | MAE : {mae}, MSE : {mse}, RMSE : {rmse}, R2 Score : {r2_sc}')
+                mlflow.set_tag('Model Name', model_name)
+                mlflow.log_metric("MAE", float(mae))
+                mlflow.log_metric("MSE", float(mse))
+                mlflow.log_metric("RMSE",float(rmse))
+                mlflow.log_metric("R2 Score", float(r2_sc))
         return report
     except Exception as e:
         logging.error(e)
