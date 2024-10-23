@@ -5,7 +5,7 @@ import sys
 from dataclasses import dataclass
 from src.tools.custom_exception import CustomException
 from src.tools.custom_logger import logging
-from src.tools.common import save_object, evaluate_model_best_param_gsv, evaluate_model_best_param_rsv
+from src.tools.common import save_object, evaluate_model_best_param_gsv, evaluate_model_best_param_rsv, evaluate_model_best_param_gsv_mlflow
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, root_mean_squared_error
 
 from catboost import CatBoostRegressor
@@ -85,7 +85,7 @@ class TrainingModel:
                 "K-Neighbors Regressor": {},
             }
             
-            model_report:dict=evaluate_model_best_param_gsv(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params)
+            model_report:dict=evaluate_model_best_param_gsv_mlflow(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params)
 
             logging.info("evaluating best model name and score using")
             best_model_score = max(sorted(model_report.values()))
