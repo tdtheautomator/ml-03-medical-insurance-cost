@@ -6,6 +6,7 @@ import pickle
 import dill
 import pandas as pd
 import numpy as np
+import yaml
 
 from src.tools.custom_exception import CustomException
 from src.tools.custom_logger import logging
@@ -32,7 +33,7 @@ def load_object(file_path):
         logging.error(e)
         raise CustomException(e, sys)
 
- #function for evaluating models for best parameters
+ #function for evaluating models for best parameters using grid search
 def evaluate_model_best_param_gsv(X_train, y_train,X_test,y_test,models,params):
     logging.info("using grid search")
     performance_metrics = {}
@@ -77,7 +78,8 @@ def evaluate_model_best_param_gsv(X_train, y_train,X_test,y_test,models,params):
     except Exception as e:
         logging.error(e)
         raise CustomException(e, sys)
-    
+
+#function for evaluating models for best parameters using random grid search
 def evaluate_model_best_param_rsv(X_train, y_train,X_test,y_test,models,params):
     logging.info("using randomized search")
     performance_metrics = {}
@@ -124,6 +126,7 @@ def evaluate_model_best_param_rsv(X_train, y_train,X_test,y_test,models,params):
         logging.error(e)
         raise CustomException(e, sys)
 
+#function for getting performance metrics of regression models
 def get_model_performance_metrics(true, predicted):
     logging.info("getting performance metrics")
     mae = round(mean_absolute_error(true, predicted),4)
@@ -131,3 +134,44 @@ def get_model_performance_metrics(true, predicted):
     rmse = round(root_mean_squared_error(true, predicted),4)
     r2_sc = round(r2_score(true, predicted),4)
     return mae, mse, rmse, r2_sc
+
+#function to read yaml file
+def read_yaml(file_path: str):
+    try:
+        with open(file_path, "rb") as yaml_file:
+            return yaml.safe_load(yaml_file)
+
+    except Exception as e:
+        raise CustomException(e, sys) from e
+
+#function to write yaml file   
+def write_yaml(file_path: str, content: object, replace: bool = False) -> None:
+    try:
+        if replace:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path, "w") as file:
+            yaml.dump(content, file)
+    except Exception as e:
+        raise CustomException(e, sys) from e
+
+#function to save numpy array to file
+def save_np_arr(file_path: str, array: np.array):
+    try:
+        dir_path = os.path.dirname(file_path)
+        os.makedirs(dir_path, exist_ok=True)
+        with open(file_path, 'wb') as file_obj:
+            np.save(file_obj, array)
+    except Exception as e:
+        raise CustomException(e, sys) from e
+    
+
+#function to load numpy array from file
+def load_np_arr(file_path: str):
+    try:
+        with open(file_path, 'rb') as file_obj:
+            return np.load(file_obj)
+    except Exception as e:
+        raise CustomException(e, sys) from e
+    
