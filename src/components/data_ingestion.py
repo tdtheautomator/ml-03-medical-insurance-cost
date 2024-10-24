@@ -1,8 +1,8 @@
 #file used to create code for ingesting data
 import os
 import sys
-from src.tools.custom_exception import CustomException
-from src.tools.custom_logger import logging
+from src.exception.custom_exception import CustomException
+from src.logging.custom_logger import logging
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass

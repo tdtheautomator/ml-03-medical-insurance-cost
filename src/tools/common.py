@@ -10,8 +10,8 @@ import yaml
 from ensure import ensure_annotations
 from box import ConfigBox
 from pathlib import Path
-from src.tools.custom_exception import CustomException
-from src.tools.custom_logger import logging
+from src.exception.custom_exception import CustomException
+from src.logging.custom_logger import logging
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, root_mean_squared_error
 

@@ -1,1 +1,1 @@
-python .\src\tools\custom_exception.py
+python .\src\exception\custom_exception.py
