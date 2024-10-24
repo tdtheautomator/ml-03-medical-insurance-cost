@@ -10,7 +10,6 @@ import yaml
 from ensure import ensure_annotations
 from box import ConfigBox
 from pathlib import Path
-from typing import Any
 from src.tools.custom_exception import CustomException
 from src.tools.custom_logger import logging
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
