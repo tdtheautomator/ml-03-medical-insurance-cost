@@ -1,15 +1,16 @@
 #file used to create code for ingesting data
 import os
 import sys
-from src.exception.custom_exception import CustomException
-from src.logging.custom_logger import logging
 import pandas as pd
+import time
+
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
-import time
+
+from src.exception.custom_exception import CustomException
+from src.logging.custom_logger import logging
 from src.components.data_transformation import DataTransformation, DataTransformationConfig
 from src.components.training_model import TrainingModel, TrainingModelConfig
-
 
 @dataclass
 class DataIngestionConfig:
