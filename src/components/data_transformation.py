@@ -8,20 +8,22 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder,StandardScaler
-from dataclasses import dataclass
 
 from src.exception.custom_exception import CustomException
 from src.logging.custom_logger import logging
 from src.helper.common import save_object
 
-@dataclass
-class DataTransformationConfig:
-    preprocessor_obj_file_path=os.path.join('outputs',"encoded_data.pkl")
+from src.config.config_variables import DataTransformationConfig
+from src.config.artifacts_shema import DataTransformationArtifact
+
 
 class DataTransformation:
-    def __init__(self):
-        self.data_transformation_config=DataTransformationConfig()
-
+    def __init__(self,data_transformation_config:DataTransformationConfig):
+        try:
+            self.data_transformation_config=data_transformation_config
+        except Exception as e:
+            raise CustomException(e,sys)
+        
     def get_data_transformer_object(self):
         logging.info("initiated data transformation")
         try:
@@ -53,13 +55,11 @@ class DataTransformation:
                 ("cat_pipelines",category_pipeline,category_columns)
                 ]
             )
-            
             return preprocessor
-
         except Exception as e:
             logging.error(e)
             raise CustomException(e,sys)
-        
+
     def initiate_data_transformation(self,training_data_path,test_data_path):
         try:
             logging.info("loading training data into dataframe")

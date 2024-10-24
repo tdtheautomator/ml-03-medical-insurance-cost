@@ -8,7 +8,7 @@ OUT_DIR: str = "outputs"
 OUT_DATA_INGESTION_DIR: str = "01.data ingestion"
 OUT_DATA_VALIDATION_DIR: str = "02.data validation"
 OUT_DATA_TRANSFORMATION_DIR: str = "03.data transformation"
-OUT_DATA_MODEL_DIR: str = "04.trained model"
+OUT_TRAINED_MODEL_DIR: str = "04.trained model"
 IN_FILE_NAME: str = "insurance.csv"
 
 OUT_RAW_FILE_NAME: str = "raw_data.csv"
