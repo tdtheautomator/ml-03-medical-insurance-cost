@@ -61,22 +61,18 @@ class DataIngestion:
 
 if __name__=="__main__":
     print('-'*100)
-    print("execution started")
-
     data_ingestion_start_time = time.time()
     obj=DataIngestion()
     training_data,test_data=obj.initiate_data_ingestion()
     data_ingestion_end_time = time.time()
     data_ingestion_time = round((data_ingestion_end_time - data_ingestion_start_time),2)
     logging.info(f"data ingestion completed in {data_ingestion_time} secs")
-    print(f"data ingestion completed in {data_ingestion_time} secs")
 
     data_transformation=DataTransformation()
     training_arr,test_arr,_=data_transformation.initiate_data_transformation(training_data,test_data)
     data_transformation_end_time = time.time()
     data_transformation_time = round((data_transformation_end_time - data_ingestion_end_time),2)
     logging.info(f"data transformation completed in {data_transformation_time} secs")
-    print(f"data transformation completed in {data_transformation_time} secs")
 
     modeltrainer=TrainingModel()
     results = modeltrainer.initiate_training_model(training_arr,test_arr)
@@ -84,9 +80,9 @@ if __name__=="__main__":
     training_model_end_time = time.time()
     training_model_time = round((training_model_end_time - data_transformation_end_time),2)
     total_time = round((training_model_end_time - data_ingestion_start_time),2)
+    
     logging.info(f"training model completed in {training_model_time} secs")
     logging.info(f"execution completed in {training_model_time} secs with best accuracy of {accuracy} % using {results[1]} model")
-    print(f"model training completed in {training_model_time} secs")
     print(f"logs directory: ./logs")
     print(f"output directory: ./outputs")
     print('-'*100)
