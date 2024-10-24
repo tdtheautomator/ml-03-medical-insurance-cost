@@ -7,7 +7,10 @@ import dill
 import pandas as pd
 import numpy as np
 import yaml
-
+from ensure import ensure_annotations
+from box import ConfigBox
+from pathlib import Path
+from typing import Any
 from src.tools.custom_exception import CustomException
 from src.tools.custom_logger import logging
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
@@ -143,49 +146,24 @@ def get_model_performance_metrics(true, predicted):
     return mae, mse, rmse, r2_sc
 
 #function to read yaml file
-def read_yaml(file_path: str):
+@ensure_annotations
+def read_yaml(file_path: Path) -> ConfigBox:
     try:
-        with open(file_path, "rb") as yaml_file:
-            return yaml.safe_load(yaml_file)
-
+        with open(file_path) as yaml_file:
+            content = yaml.safe_load(yaml_file)
+            logging.info(f"{file_path} loaded successfully")
+            return ConfigBox(content)
     except Exception as e:
-        raise CustomException(e, sys) from e
-
-#function to write yaml file   
-def write_yaml(file_path: str, content: object, replace: bool = False) -> None:
-    try:
-        if replace:
-            if os.path.exists(file_path):
-                os.remove(file_path)
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        with open(file_path, "w") as file:
-            yaml.dump(content, file)
-    except Exception as e:
-        raise CustomException(e, sys) from e
-
-#function to save numpy array to file
-def save_np_arr(file_path: str, array: np.array):
-    try:
-        dir_path = os.path.dirname(file_path)
-        os.makedirs(dir_path, exist_ok=True)
-        with open(file_path, 'wb') as file_obj:
-            np.save(file_obj, array)
-    except Exception as e:
-        raise CustomException(e, sys) from e
+        raise e
     
-
-#function to load numpy array from file
-def load_np_arr(file_path: str):
-    try:
-        with open(file_path, 'rb') as file_obj:
-            return np.load(file_obj)
-    except Exception as e:
-        raise CustomException(e, sys) from e
-    
-
+@ensure_annotations
+def create_directories(path_to_directories: list, verbose=True):
+    for path in path_to_directories:
+        os.makedirs(path, exist_ok=True)
+        if verbose:
+            logging.info(f"{path} directory created")
 
  #function for evaluating models for best parameters using grid search and MLOps
-
 def evaluate_model_best_param_gsv_mlflow(X_train, y_train,X_test,y_test,models,params):
     logging.info("using grid search and mlflow")
     performance_metrics = {}

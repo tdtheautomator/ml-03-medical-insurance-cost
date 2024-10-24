@@ -8,4 +8,6 @@ catboost
 xgboost
 dill
 mlflow
--e .pip
+python-box
+ensure
+-e .

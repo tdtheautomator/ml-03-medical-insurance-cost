@@ -9,15 +9,9 @@ from src.tools.common import save_object, evaluate_model_best_param_gsv, evaluat
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, root_mean_squared_error
 
 from catboost import CatBoostRegressor
-from sklearn.ensemble import (
-    RandomForestRegressor,
-)
-from sklearn.linear_model import LinearRegression, Lasso, Ridge
 from sklearn.tree import DecisionTreeRegressor
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.ensemble import RandomForestRegressor,AdaBoostRegressor, ExtraTreesRegressor, BaggingRegressor, GradientBoostingRegressor
+from sklearn.ensemble import RandomForestRegressor
 from catboost import CatBoostRegressor
-from xgboost import XGBRegressor
 
 
 @dataclass
@@ -42,50 +36,28 @@ class TrainingModel:
                 test_array[:,-1]       #only last column
             )
             models = {
-               "Linear Regression": LinearRegression(),
                "Catagory Boost Regressor": CatBoostRegressor(verbose=False),
-               "Bagging Regressor": BaggingRegressor(),
                "Decision Tree Regressor": DecisionTreeRegressor(),
                "Random Forest Regressor": RandomForestRegressor(),
-                "Extra Trees Regressor": ExtraTreesRegressor(),
-                "Lasso Regression": Lasso(),
-                "Ridge Regression": Ridge(),
-                "XG Boost Regressor": XGBRegressor(), 
-                "Gradient Boos Regressor": GradientBoostingRegressor(),
-                "Adaptive Boost Regressor": AdaBoostRegressor(),
-                "K-Neighbors Regressor": KNeighborsRegressor(n_neighbors=5),
             }
             
             #used for hyper tuning
             params={
-               "Linear Regression": {},
                "Catagory Boost Regressor": {
                    'depth': [6,8,10],
                     'learning_rate': [0.01, 0.05, 0.1],
                     'iterations': [30, 50, 100]
-               },
-               "Bagging Regressor": {
-                   'n_estimators': [8,16,32,64,128,256]
                },
                "Decision Tree Regressor": {
                    'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
                },
                "Random Forest Regressor": {
                    'n_estimators': [8,16,32,64,128,256],
-               },
-               "Extra Trees Regressor": {
-                    'n_estimators': [256],
-                    'criterion':['poisson'],
-                },
-                "Lasso Regression": {},
-                "Ridge Regression": {},
-                "XG Boost Regressor": {}, 
-                "Gradient Boost Regressor": {},
-                "Adaptive Boost Regressor": {},
-                "K-Neighbors Regressor": {},
+               }
             }
             
-            model_report:dict=evaluate_model_best_param_gsv_mlflow(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params)
+            #model_report:dict=evaluate_model_best_param_gsv_mlflow(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params)
+            model_report:dict=evaluate_model_best_param_gsv(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params)
 
             logging.info("evaluating best model name and score using")
             best_model_score = max(sorted(model_report.values()))
