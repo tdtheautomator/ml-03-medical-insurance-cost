@@ -36,7 +36,10 @@ class DataValidationConfig:
 class DataTransformationConfig:
      def __init__(self,vars_config:VarsConfig):
         self.data_transformation_dir:str=os.path.join(vars_config.output_dir,vars.OUT_DATA_TRANSFORMATION_DIR)
-        self.preprocessor_obj_file_path:str = os.path.join(vars_config.output_dir,vars.OUT_ENCODED_FILE_NAME)
+        self.encoded_file_path:str = os.path.join(self.data_transformation_dir,vars.OUT_ENCODED_FILE_NAME)
+        self.transformed_train_file_path:str = os.path.join(self.data_transformation_dir,vars.OUT_TRANSFORMED_TRAIN_FILE_NAME)
+        self.transformed_test_file_path:str = os.path.join(self.data_transformation_dir,vars.OUT_TRANSFORMED_TEST_FILE_NAME)
+        self.input_data_schema_path:str = os.path.join(vars.IN_DIR,vars.IN_DATA_SCHEMA)
      
 class TrainingModelConfig:
     def __init__(self,vars_config:VarsConfig):

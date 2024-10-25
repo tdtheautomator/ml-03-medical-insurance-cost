@@ -20,29 +20,7 @@ from urllib.parse import urlparse
 from src.exception.custom_exception import CustomException
 from src.logging.custom_logger import logging
 
-#function for saving pickle file
-def save_object(file_path, obj):
-    try:
-        dir_path = os.path.dirname(file_path)
-        os.makedirs(dir_path, exist_ok=True)
-        with open(file_path, "wb") as file_obj:
-            pickle.dump(obj, file_obj)
-    except Exception as e:
-        logging.error(e)
-        raise CustomException(e, sys)
-
- #function for loading pickle file   
-
-def load_object(file_path):
-    try:
-        with open(file_path, "rb") as file_obj:
-            return pickle.load(file_obj)
-    except Exception as e:
-        logging.error(e)
-        raise CustomException(e, sys)
-
- #function for evaluating models for best parameters using grid search
-
+#function for evaluating models for best parameters using grid search
 def evaluate_model_best_param_gsv(X_train, y_train,X_test,y_test,models,params):
     logging.info("using grid search")
     performance_metrics = {}
@@ -144,34 +122,6 @@ def get_model_performance_metrics(true, predicted):
     r2_sc = float(round(r2_score(true, predicted),4))
     return mae, mse, rmse, r2_sc
 
-#function to read yaml file
-@ensure_annotations
-def read_yaml(file_path: str) -> dict:
-    try:
-        with open(file_path, "r") as yaml_file:
-            output = yaml.safe_load(yaml_file)
-        return output
-    except Exception as e:
-        raise Exception(e, sys) from e
-    
-@ensure_annotations
-def write_yaml(file_path: str, content: object, replace: bool = False) -> None:
-    try:
-        if replace:
-            if os.path.exists(file_path):
-                os.remove(file_path)
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        with open(file_path, "w") as file:
-            yaml.dump(content, file)
-    except Exception as e:
-        raise Exception(e, sys)
-    
-@ensure_annotations
-def create_directories(path_to_directories: list, verbose=True):
-    for path in path_to_directories:
-        os.makedirs(path, exist_ok=True)
-        if verbose:
-            logging.info(f"{path} directory created")
 
  #function for evaluating models for best parameters using grid search and MLOps
 def evaluate_model_best_param_gsv_mlflow(X_train, y_train,X_test,y_test,models,params):
@@ -215,3 +165,72 @@ def evaluate_model_best_param_gsv_mlflow(X_train, y_train,X_test,y_test,models,p
     except Exception as e:
         logging.error(e)
         raise CustomException(e, sys)
+
+# -------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
+
+
+def save_object(file_path: str, obj: object) -> None:
+    try:
+        dir_path = os.path.dirname(file_path)
+        os.makedirs(dir_path, exist_ok=True)
+        with open(file_path, "wb") as file_obj:
+            pickle.dump(obj, file_obj)
+    except Exception as e:
+        logging.error(e)
+        raise CustomException(e, sys)
+
+@ensure_annotations
+def load_object(file_path: str, ) -> object:
+    try:
+        with open(file_path, "rb") as file_obj:
+            return pickle.load(file_obj)
+    except Exception as e:
+        logging.error(e)
+        raise CustomException(e, sys)
+    
+@ensure_annotations
+def create_directories(path_to_directories: list, verbose=True):
+    for path in path_to_directories:
+        os.makedirs(path, exist_ok=True)
+        if verbose:
+            logging.info(f"{path} directory created")
+
+
+def save_np_array(file_path: str, array: np.array):
+    try:
+        dir_path = os.path.dirname(file_path)
+        os.makedirs(dir_path, exist_ok=True)
+        with open(file_path, "wb") as file_obj:
+            np.save(file_obj, array)
+    except Exception as e:
+        raise CustomException(e, sys) from e
+
+
+def load_np_array(file_path: str) -> np.array:
+    try:
+        with open(file_path, "rb") as file_obj:
+            return np.load(file_obj)
+    except Exception as e:
+        raise CustomException(e, sys) from e
+    
+@ensure_annotations
+def read_yaml(file_path: str) -> dict:
+    try:
+        with open(file_path, "r") as yaml_file:
+            output = yaml.safe_load(yaml_file)
+        return output
+    except Exception as e:
+        raise Exception(e, sys) from e
+    
+@ensure_annotations
+def write_yaml(file_path: str, content: object, replace: bool = False) -> None:
+    try:
+        if replace:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path, "w") as file:
+            yaml.dump(content, file)
+    except Exception as e:
+        raise Exception(e, sys)
