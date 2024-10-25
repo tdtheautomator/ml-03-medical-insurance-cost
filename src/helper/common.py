@@ -146,14 +146,25 @@ def get_model_performance_metrics(true, predicted):
 
 #function to read yaml file
 @ensure_annotations
-def read_yaml(file_path: Path) -> ConfigBox:
+def read_yaml(file_path: str) -> dict:
     try:
-        with open(file_path) as yaml_file:
-            content = yaml.safe_load(yaml_file)
-            logging.info(f"{file_path} loaded successfully")
-            return ConfigBox(content)
+        with open(file_path, "r") as yaml_file:
+            output = yaml.safe_load(yaml_file)
+        return output
     except Exception as e:
-        raise e
+        raise Exception(e, sys) from e
+    
+@ensure_annotations
+def write_yaml(file_path: str, content: object, replace: bool = False) -> None:
+    try:
+        if replace:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path, "w") as file:
+            yaml.dump(content, file)
+    except Exception as e:
+        raise Exception(e, sys)
     
 @ensure_annotations
 def create_directories(path_to_directories: list, verbose=True):

@@ -1,0 +1,21 @@
+columns:
+  - age: int64
+  - sex: object
+  - bmi: float64
+  - children: int64
+  - smoker: object
+  - region: object
+  - charges: float64
+
+numerical_columns:
+  - age
+  - bmi
+  - children
+  - charges
+categorical_columns:
+  - sex
+  - smoker
+  - region
+
+target_column:
+ - charges
