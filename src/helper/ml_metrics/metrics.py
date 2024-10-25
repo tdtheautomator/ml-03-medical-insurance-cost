@@ -15,7 +15,7 @@ def regression_metrics(true, predicted)->RegressionModelMetrics:
         o_mse = round(mean_squared_error(true, predicted),4)
         o_rmse = round(root_mean_squared_error(true, predicted),4)
         o_r2_score = round(r2_score(true, predicted),4)
-        performance_metrics = RegressionModelMetrics(mae=o_mae, mse=o_mse,rmse=o_rmse,r2Score=o_r2_score)
+        performance_metrics = RegressionModelMetrics(MAE=o_mae, MSE=o_mse,RMSE=o_rmse,R2Score=o_r2_score)
         return performance_metrics
     except Exception as e:
             raise CustomException(e,sys)

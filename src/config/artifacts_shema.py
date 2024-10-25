@@ -22,10 +22,10 @@ class DataTransformationArtifact:
 
 @dataclass
 class RegressionModelMetrics:
-    mae: float
-    mse: float
-    rmse: float
-    r2Score: float
+    MAE: float
+    MSE: float
+    RMSE: float
+    R2Score: float
 
 @dataclass
 class TrainingModelArtifact:

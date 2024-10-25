@@ -11,6 +11,7 @@ from src.logging.custom_logger import logging
 from src.helper.common import save_object, load_np_array
 from src.helper.ml_models.evaluate import evaluate_best_model
 from src.helper.ml_metrics.metrics import regression_metrics
+from src.helper.mlflow.track import track_experiment
 from src.config.config_variables import TrainingModelConfig
 from src.config.artifacts_shema import TrainingModelArtifact, DataTransformationArtifact
 
@@ -61,9 +62,15 @@ class TrainingModel:
 
             predicted_y_test=best_model.predict(X_test)
             test_metrics=regression_metrics(true=y_test,predicted=predicted_y_test)
+            print(test_metrics)
+            print(type(test_metrics))
+            track_experiment("Medical Insurance", best_model,test_metrics, "local")
 
             predicted_y_train=best_model.predict(X_train)
             train_metrics=regression_metrics(true=y_train,predicted=predicted_y_train)
+            print(train_metrics)
+            print(type(train_metrics))
+            track_experiment("Medical Insurance", best_model,train_metrics, "local")
 
             logging.info("saving trained model objects")
             save_object(file_path=self.training_model_config.trained_model_file_path,obj=best_model)

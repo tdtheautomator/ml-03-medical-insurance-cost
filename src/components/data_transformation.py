@@ -11,7 +11,7 @@ from sklearn.preprocessing import OneHotEncoder,StandardScaler
 
 from src.exception.custom_exception import CustomException
 from src.logging.custom_logger import logging
-from src.helper.common import save_object, save_np_array, read_yaml
+from src.helper.common import save_object, read_yaml
 
 from src.config.config_variables import DataTransformationConfig
 from src.config.artifacts_shema import DataTransformationArtifact, DataValidationArtifact

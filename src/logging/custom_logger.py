@@ -11,7 +11,7 @@ os.makedirs(logs_path,exist_ok=True)
 log_file_path=os.path.join(logs_path,log_file_name)
 
 logging.basicConfig(
-    format="[ %(asctime)s ] %(lineno)d %(name)s - %(levelname)s - %(message)s",
+    format="[ %(asctime)s ] %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO,
 
     handlers=[
