@@ -43,5 +43,5 @@ class DataTransformationConfig:
      
 class TrainingModelConfig:
     def __init__(self,vars_config:VarsConfig):
-        self.data_transformation_dir:str=os.path.join(vars_config.output_dir,vars.OUT_TRAINED_MODEL_DIR)
-        self.trained_model_file_path:str = os.path.join(vars_config.output_dir,vars.OUT_MODEL_FILE_NAME)
+        self.trained_mode_dir:str=os.path.join(vars_config.output_dir,vars.OUT_TRAINED_MODEL_DIR)
+        self.trained_model_file_path:str = os.path.join(self.trained_mode_dir,vars.OUT_MODEL_FILE_NAME)

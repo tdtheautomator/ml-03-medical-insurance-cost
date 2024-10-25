@@ -13,6 +13,7 @@ OUT_DATA_INGESTION_DIR: str = "01.data ingestion"
 OUT_RAW_FILE_NAME: str = "raw_data.csv"
 OUT_TRAIN_FILE_NAME: str = "train_data.csv"
 OUT_TEST_FILE_NAME: str = "test_data.csv"
+TRAIN_TEST_SPLIT_RATIO: float = 0.2
 
 # Data Validation Variables
 OUT_DATA_VALIDATION_DIR: str = "02.data validation"
@@ -30,4 +31,3 @@ OUT_TRANSFORMED_TEST_FILE_NAME: str = "transformed_test_data.npy"
 # Model Training Variables
 OUT_TRAINED_MODEL_DIR: str = "04.trained model"
 OUT_MODEL_FILE_NAME: str = "trained_model.pkl"
-TRAIN_TEST_SPLIT_RATIO: float = 0.2
