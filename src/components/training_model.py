@@ -11,7 +11,6 @@ from src.logging.custom_logger import logging
 from src.helper.common import save_object, load_np_array
 from src.helper.ml_models.evaluate import evaluate_reg_model_perf
 from src.helper.ml_metrics.metrics import regression_metrics
-from src.helper.mlflow.track import track_experiment
 from src.config.config_variables import TrainingModelConfig
 from src.config.artifacts_shema import TrainingModelArtifact, DataTransformationArtifact
 
@@ -27,27 +26,30 @@ class TrainingModel:
     def train_model(self,X_train,y_train,X_test,y_test):
         try:
             models = {
-               "Catagory Boost Regressor": CatBoostRegressor(verbose=False),
+               #"Catagory Boost Regressor": CatBoostRegressor(verbose=False),
                "Decision Tree Regressor": DecisionTreeRegressor(),
                "Random Forest Regressor": RandomForestRegressor(),
             }
             
             #hyper tuning parameters
             params={
-               "Catagory Boost Regressor": {
-                   'depth': [6,8,10],
-                    'learning_rate': [0.01, 0.05, 0.1],
-                    'iterations': [30, 50, 100]
-               },
+               #"Catagory Boost Regressor": {
+               #    'depth': [6,8,10],
+               #     'learning_rate': [0.01, 0.05, 0.1],
+               #     'iterations': [30, 50, 100]
+               #},
                "Decision Tree Regressor": {
                    'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
                },
                "Random Forest Regressor": {
                    'n_estimators': [8,16,32,64,128,256],
+                    'max_depth': [5, 10, None],
+                    'min_samples_split': [2, 5],
+                    'min_samples_leaf': [1, 2]
                }
             }
             
-            model_report:dict = evaluate_reg_model_perf(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params,searcher="gsv")
+            model_report:dict = evaluate_reg_model_perf(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params,searcher="gsv",track_in_mlflow=True,log_model_in_mlflow=True)
             r2_score_report = {}
             for key,value in model_report.items():
                 name=key
@@ -69,14 +71,8 @@ class TrainingModel:
             predicted_y_test=best_model.predict(X_test)
             test_metrics=regression_metrics(true=y_test,predicted=predicted_y_test)
 
-           
             predicted_y_train=best_model.predict(X_train)
             train_metrics=regression_metrics(true=y_train,predicted=predicted_y_train)
-
-            #logging.info("loading test predection metrics to mlflow")
-            #(mlflow_run_id, mlflow_run_name) = track_experiment(test_metrics)
-            #logging.info(f"Mlflow Run ID: {mlflow_run_id}, Mlflow Run Name: {mlflow_run_name}")
-            #logging.info("performing predection on training data (optional)")
 
             logging.info("saving trained model objects")
             save_object(file_path=self.training_model_config.trained_model_file_path,obj=best_model)
