@@ -60,7 +60,6 @@ class DataIngestion:
             raise CustomException(e,sys)
         
     def initiate_data_ingestion(self):
-        logging.info("initiated data ingestion")
         try:
             df=self.export_data_as_dataframe()
             df=self.export_data_to_outputs(df)

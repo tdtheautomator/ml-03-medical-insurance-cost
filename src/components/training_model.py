@@ -9,7 +9,7 @@ from catboost import CatBoostRegressor
 from src.exception.custom_exception import CustomException
 from src.logging.custom_logger import logging
 from src.helper.common import save_object, load_np_array
-from src.helper.ml_models.evaluate import evaluate_best_model
+from src.helper.ml_models.evaluate import evaluate_reg_model_perf
 from src.helper.ml_metrics.metrics import regression_metrics
 from src.helper.mlflow.track import track_experiment
 from src.config.config_variables import TrainingModelConfig
@@ -23,7 +23,7 @@ class TrainingModel:
             self.trained_model_file_path = self.training_model_config.trained_model_file_path
         except Exception as e:
             raise CustomException(e,sys)
-        
+
     def train_model(self,X_train,y_train,X_test,y_test):
         try:
             models = {
@@ -32,7 +32,7 @@ class TrainingModel:
                "Random Forest Regressor": RandomForestRegressor(),
             }
             
-            #used for hyper tuning
+            #hyper tuning parameters
             params={
                "Catagory Boost Regressor": {
                    'depth': [6,8,10],
@@ -47,30 +47,36 @@ class TrainingModel:
                }
             }
             
-            model_report:dict = evaluate_best_model(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params,searcher="gsv")
+            model_report:dict = evaluate_reg_model_perf(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params,searcher="gsv")
+            r2_score_report = {}
+            for key,value in model_report.items():
+                name=key
+                metrics = value[0]
+                r2score = metrics['R2Score']
+                r2_score_report[name] = r2score
 
             logging.info("evaluating best model name and score using")
-            best_model_score = max(sorted(model_report.values()))
-            best_model_name = list(model_report.keys())[
-                list(model_report.values()).index(best_model_score)
+            best_model_score = max(sorted(r2_score_report.values()))
+            best_model_name = list(r2_score_report.keys())[
+                list(r2_score_report.values()).index(best_model_score)
             ]
             best_model = models[best_model_name]
-            for k,v in model_report.items():
+            for k,v in r2_score_report.items():
                 v = round(v,2)
                 logging.info(f"Model: {k}, R2 Score: {v}")
             logging.info(f"best model selected is {best_model_name} with accuracy of {best_model_score}")
-
+            logging.info("performing predection on test data")
             predicted_y_test=best_model.predict(X_test)
             test_metrics=regression_metrics(true=y_test,predicted=predicted_y_test)
-            print(test_metrics)
-            print(type(test_metrics))
-            track_experiment("Medical Insurance", best_model,test_metrics, "local")
 
+            logging.info("loading test predection metrics to mlflow")
+            exp_name = "Medical Insurance"
+            (mlflow_run_id, mlflow_run_name) = track_experiment(exp_name,test_metrics, "local")
+            logging.info(f"Mlflow Experiment: {exp_name}, Mlflow Run ID: {mlflow_run_id}, Mlflow Run Name: {mlflow_run_name}")
+            logging.info("performing predection on training data (optional)")
             predicted_y_train=best_model.predict(X_train)
             train_metrics=regression_metrics(true=y_train,predicted=predicted_y_train)
-            print(train_metrics)
-            print(type(train_metrics))
-            track_experiment("Medical Insurance", best_model,train_metrics, "local")
+            #track_experiment("Medical Insurance", best_model,train_metrics, "local")
 
             logging.info("saving trained model objects")
             save_object(file_path=self.training_model_config.trained_model_file_path,obj=best_model)
