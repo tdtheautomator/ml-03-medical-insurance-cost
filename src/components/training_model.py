@@ -69,14 +69,14 @@ class TrainingModel:
             predicted_y_test=best_model.predict(X_test)
             test_metrics=regression_metrics(true=y_test,predicted=predicted_y_test)
 
-            logging.info("loading test predection metrics to mlflow")
-            exp_name = "Medical Insurance"
-            (mlflow_run_id, mlflow_run_name) = track_experiment(exp_name,test_metrics, "local")
-            logging.info(f"Mlflow Experiment: {exp_name}, Mlflow Run ID: {mlflow_run_id}, Mlflow Run Name: {mlflow_run_name}")
-            logging.info("performing predection on training data (optional)")
+           
             predicted_y_train=best_model.predict(X_train)
             train_metrics=regression_metrics(true=y_train,predicted=predicted_y_train)
-            #track_experiment("Medical Insurance", best_model,train_metrics, "local")
+
+            #logging.info("loading test predection metrics to mlflow")
+            #(mlflow_run_id, mlflow_run_name) = track_experiment(test_metrics)
+            #logging.info(f"Mlflow Run ID: {mlflow_run_id}, Mlflow Run Name: {mlflow_run_name}")
+            #logging.info("performing predection on training data (optional)")
 
             logging.info("saving trained model objects")
             save_object(file_path=self.training_model_config.trained_model_file_path,obj=best_model)
@@ -84,7 +84,6 @@ class TrainingModel:
             trained_model_artifact = TrainingModelArtifact(
                 trained_model_file_path=self.training_model_config.trained_model_file_path,
                 train_metrics=train_metrics, test_metrics=test_metrics)
-
             return trained_model_artifact
         except Exception as e:
             raise CustomException(e,sys)

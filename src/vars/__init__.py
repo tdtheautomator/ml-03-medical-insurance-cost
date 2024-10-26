@@ -31,3 +31,7 @@ OUT_TRANSFORMED_TEST_FILE_NAME: str = "transformed_test_data.npy"
 # Model Training Variables
 OUT_TRAINED_MODEL_DIR: str = "04.trained model"
 OUT_MODEL_FILE_NAME: str = "trained_model.pkl"
+
+# MLFlow Variables
+MLFLOW_TRACKING_URI: str = "http://127.0.0.1:5000/"
+MLFLOW_EXP_NAME:str = "Medical Insurance"
