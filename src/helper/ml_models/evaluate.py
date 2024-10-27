@@ -7,16 +7,15 @@ from datetime import datetime
 
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from src.helper.ml_metrics.metrics import regression_metrics
-from src.helper.mlflow.track import track_experiment
+from src.helper.mlflow.client import get_best_run_id, get_exp_info_from_run_id
 
 import mlflow
 import src.vars as vars
 from mlflow.models import infer_signature
-from urllib.parse import urlparse
 
 
 #function for evaluating models for best parameters using grid search
-def evaluate_reg_model_perf(X_train, y_train,X_test,y_test,models,params,searcher,track_in_mlflow:bool=False,log_model_in_mlflow:bool=False,register_model_in_mlflow:str="None"):
+def evaluate_reg_model_perf(X_train, y_train,X_test,y_test,models,params,searcher,track_in_mlflow:bool=False,log_model_in_mlflow:bool=False,register_best_model_in_mlflow:bool=False):
     try:
         report = {}
         for i in range(len(list(models))):
@@ -62,15 +61,23 @@ def evaluate_reg_model_perf(X_train, y_train,X_test,y_test,models,params,searche
                     if log_model_in_mlflow:
                         logging.info("logging model in mlflow")
                         mlflow.sklearn.log_model(
-                        sk_model=model_name,
+                        sk_model=model,
                         artifact_path=vars.MLFLOW_EXP_NAME.replace(' ','_').lower(),
                         signature=infer_signature(X_train,model.predict(X_train))
                     )
                     run_id = run.info.run_id
-                    logging.info(f"Mlflow Run ID: {run_id}, Mlflow Run Name: {run_name}")
+                    experiment_id = run.info.experiment_id
+                    #r2Score = performance_metrics['R2Score']
+                    logging.info(f"Experiment ID: {experiment_id},  Mlflow Run ID: {run_id}, Mlflow Run Name: {run_name}")
             report[list(models.keys())[i]] = performance_metrics,s.best_params_
         logging.info("final model performance report after hyper tuning")
         logging.info(report)
+        if register_best_model_in_mlflow:
+            logging.info("registering best model in mlflow")
+            (best_run_id,best_run_name) = get_best_run_id(experiment_id,'R2Score')
+            best_model_uri = f"runs:/{run_id}/model"
+            mlflow.register_model(model_uri=best_model_uri, name=vars.MLFLOW_REG_MODLE_NAME, tags={"environment": "development" })
+            logging.info(f"Mlflow Best Run ID : {best_run_id}, Mlflow Best Run Name : {best_run_name}, MLFlow Best Model URI : {best_model_uri}")
         return report
     except Exception as e:
         logging.error(e)

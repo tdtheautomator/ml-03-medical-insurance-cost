@@ -49,7 +49,7 @@ class TrainingModel:
                }
             }
             
-            model_report:dict = evaluate_reg_model_perf(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params,searcher="gsv",track_in_mlflow=True,log_model_in_mlflow=True)
+            model_report:dict = evaluate_reg_model_perf(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params,searcher="gsv",track_in_mlflow=True,log_model_in_mlflow=True,register_best_model_in_mlflow=True)
             r2_score_report = {}
             for key,value in model_report.items():
                 name=key
