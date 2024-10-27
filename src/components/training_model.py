@@ -26,23 +26,23 @@ class TrainingModel:
     def train_model(self,X_train,y_train,X_test,y_test):
         try:
             models = {
-               #"Catagory Boost Regressor": CatBoostRegressor(verbose=False),
+               "Catagory Boost Regressor": CatBoostRegressor(verbose=False),
                "Decision Tree Regressor": DecisionTreeRegressor(),
                "Random Forest Regressor": RandomForestRegressor(),
             }
             
             #hyper tuning parameters
             params={
-               #"Catagory Boost Regressor": {
-               #    'depth': [6,8,10],
-               #     'learning_rate': [0.01, 0.05, 0.1],
-               #     'iterations': [30, 50, 100]
-               #},
+               "Catagory Boost Regressor": {
+                   'depth': [6,8,10],
+                    'learning_rate': [0.01, 0.05, 0.1],
+                    'iterations': [30, 50, 100]
+               },
                "Decision Tree Regressor": {
                    'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
                },
                "Random Forest Regressor": {
-                   'n_estimators': [8,16,32,64,128,256],
+                   'n_estimators': [128,256],
                     'max_depth': [5, 10, None],
                     'min_samples_split': [2, 5],
                     'min_samples_leaf': [1, 2]

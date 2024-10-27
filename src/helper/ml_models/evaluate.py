@@ -16,7 +16,7 @@ from urllib.parse import urlparse
 
 
 #function for evaluating models for best parameters using grid search
-def evaluate_reg_model_perf(X_train, y_train,X_test,y_test,models,params,searcher,track_in_mlflow:bool,log_model_in_mlflow:bool,register_model_in_mlflow:str="None"):
+def evaluate_reg_model_perf(X_train, y_train,X_test,y_test,models,params,searcher,track_in_mlflow:bool=False,log_model_in_mlflow:bool=False,register_model_in_mlflow:str="None"):
     try:
         report = {}
         for i in range(len(list(models))):
@@ -39,38 +39,38 @@ def evaluate_reg_model_perf(X_train, y_train,X_test,y_test,models,params,searche
             tags={
                     "Algorithm" : model_name
                 }
-            (mlflow_run_id, mlflow_run_name) = track_experiment(metrics=performance_metrics,params=s.best_params_,tags=tags)
-            #if track_in_mlflow:
-            #    logging.info("tracking test predection metrics in mlflow")
-            #    tags={
-            #        "Algorithm" : model_name
-            #    }
-            #    run_name= f"{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}"
-            #    mlflow.set_experiment(vars.MLFLOW_EXP_NAME)
-            #    mlflow.set_tracking_uri(vars.MLFLOW_TRACKING_URI)
-            #    with mlflow.start_run(run_name=run_name) as run:
-            #        if (performance_metrics):
-            #            logging.info("registering metrics mlflow")
-            #            mlflow.log_metrics(performance_metrics)
-            #        if (tags):
-            #            logging.info("adding tags in mlflow")
-            #            mlflow.set_tags(tags)
-            #        if (s.best_params_):
-            #            logging.info("registering parameters mlflow")
-            #            params=s.best_params_
-            #            mlflow.log_params(params)
-            #        if log_model_in_mlflow:
-            #            logging.info("logging model in mlflow")
-            #            mlflow.sklearn.log_model(
-            #            sk_model=model_name,
-            #            artifact_path=vars.MLFLOW_EXP_NAME.replace(' ','_').lower(),
-            #            signature=infer_signature(X_train,model.predict(X_train))
-            #        )
-            #        run_id = run.info.run_id
-            #        logging.info(f"Mlflow Run ID: {run_id}, Mlflow Run Name: {run_name}")
+            #(mlflow_run_id, mlflow_run_name) = track_experiment(metrics=performance_metrics,params=s.best_params_,tags=tags)
+            if track_in_mlflow:
+                logging.info("tracking test predection metrics in mlflow")
+                tags={
+                    "Algorithm" : model_name
+                }
+                run_name= f"{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}"
+                mlflow.set_experiment(vars.MLFLOW_EXP_NAME)
+                mlflow.set_tracking_uri(vars.MLFLOW_TRACKING_URI)
+                with mlflow.start_run(run_name=run_name) as run:
+                    if (performance_metrics):
+                        logging.info("registering metrics mlflow")
+                        mlflow.log_metrics(performance_metrics)
+                    if (tags):
+                        logging.info("adding tags in mlflow")
+                        mlflow.set_tags(tags)
+                    if (s.best_params_):
+                        logging.info("registering parameters mlflow")
+                        best_params=s.best_params_
+                        mlflow.log_params(best_params)
+                    if log_model_in_mlflow:
+                        logging.info("logging model in mlflow")
+                        mlflow.sklearn.log_model(
+                        sk_model=model_name,
+                        artifact_path=vars.MLFLOW_EXP_NAME.replace(' ','_').lower(),
+                        signature=infer_signature(X_train,model.predict(X_train))
+                    )
+                    run_id = run.info.run_id
+                    logging.info(f"Mlflow Run ID: {run_id}, Mlflow Run Name: {run_name}")
             report[list(models.keys())[i]] = performance_metrics,s.best_params_
-            logging.info("final model performance report after hyper tuning")
-            logging.info(report)
+        logging.info("final model performance report after hyper tuning")
+        logging.info(report)
         return report
     except Exception as e:
         logging.error(e)
