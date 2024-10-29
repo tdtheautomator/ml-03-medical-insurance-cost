@@ -7,6 +7,7 @@ OUT_LOGS_DIR: str = "logs"
 IN_DIR: str = "data"
 IN_FILE_NAME: str = "insurance.csv"
 IN_DATA_SCHEMA: str = "data_schema.yaml"
+PUSH_FINAL_ARTIFACTS: bool =  True
 
 # Data Ingestion Variables
 OUT_DATA_INGESTION_DIR: str = "01.data ingestion"
@@ -39,6 +40,8 @@ MLFLOW_REG_MODLE_NAME:str = "medical-insurance-predictor"
 
 # Training Pipeline Variables
 TRAIN_PIPELINE_NAME: str = "MedicalInsurance"
-FINAL_ARTIFACTS_DIR:str = "final"
+
+# Prediction Pipeline Variables
+FINAL_ARTIFACTS_DIR:str = "latest"
 FINAL_ENCODED_FILE: str = "encoded_data.pkl"
 FINAL_TRAINED_MODEL: str = "trained_model.pkl"

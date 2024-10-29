@@ -3,6 +3,8 @@ import os
 import sys
 import numpy as np 
 import pandas as pd
+import shutil
+import src.vars as vars
 
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
@@ -114,6 +116,10 @@ class DataTransformation:
                 file_path=self.data_transformation_config.encoded_file_path,
                 obj=preprocessing_obj
             )
+            if vars.PUSH_FINAL_ARTIFACTS:
+                destination: str=os.path.join(vars.OUT_DIR,vars.FINAL_ARTIFACTS_DIR)
+                os.makedirs(os.path.dirname(destination),exist_ok=True)
+                shutil.copyfile(self.data_transformation_config.encoded_file_path,destination)
             logging.info("data transformation completed")
 
             data_transformation_artifact=DataTransformationArtifact(

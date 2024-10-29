@@ -45,3 +45,8 @@ class TrainingModelConfig:
         self.trained_mode_dir:str=os.path.join(vars_config.output_dir,vars.OUT_TRAINED_MODEL_DIR)
         self.trained_model_file_path:str = os.path.join(self.trained_mode_dir,vars.OUT_MODEL_FILE_NAME)
 
+class PredictionPipelineConfig:
+    def __init__(self):
+        self.final_encoded_file:str=os.path.join(vars.OUT_DIR,vars.FINAL_ARTIFACTS_DIR,vars.FINAL_ENCODED_FILE)
+        self.final_tained_model_file:str = os.path.join(vars.OUT_DIR,vars.FINAL_ARTIFACTS_DIR,vars.FINAL_TRAINED_MODEL)
+

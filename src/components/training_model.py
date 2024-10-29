@@ -1,6 +1,8 @@
 #file used to create code for training model
 import os
 import sys
+import shutil
+import src.vars as vars
 
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
@@ -76,6 +78,10 @@ class TrainingModel:
 
             logging.info("saving trained model objects")
             save_object(file_path=self.training_model_config.trained_model_file_path,obj=best_model)
+            if vars.PUSH_FINAL_ARTIFACTS:
+                destination: str=os.path.join(vars.OUT_DIR,vars.FINAL_ARTIFACTS_DIR)
+                os.makedirs(os.path.dirname(destination),exist_ok=True)
+                shutil.copyfile(self.training_model_config.trained_model_file_path,destination)
             logging.info("completed model training")
             trained_model_artifact = TrainingModelArtifact(
                 trained_model_file_path=self.training_model_config.trained_model_file_path,
