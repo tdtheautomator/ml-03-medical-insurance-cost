@@ -38,4 +38,7 @@ MLFLOW_EXP_NAME:str = "Medical Insurance"
 MLFLOW_REG_MODLE_NAME:str = "medical-insurance-predictor"
 
 # Training Pipeline Variables
-TARIN_PIPELINE_NAME: str = "MedicalInsurance"
+TRAIN_PIPELINE_NAME: str = "MedicalInsurance"
+FINAL_ARTIFACTS_DIR:str = "final"
+FINAL_ENCODED_FILE: str = "encoded_data.pkl"
+FINAL_TRAINED_MODEL: str = "trained_model.pkl"

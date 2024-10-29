@@ -47,7 +47,7 @@ class DataValidation:
             data_drift_report = Report(metrics=[DataDriftPreset()])
             data_drift_report.run(reference_data=ref_df, current_data=target_df)
             report = data_drift_report.as_dict()
-            data_drift_report.save_html(self.data_validation_config.drift_report_file_path)
+            os.makedirs(os.path.dirname(self.data_validation_config.drift_report_file_path),exist_ok=True)
             drift_status = report["metrics"][0]["result"]["dataset_drift"]
             return drift_status
         except Exception as e:

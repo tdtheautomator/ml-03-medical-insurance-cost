@@ -104,6 +104,8 @@ class DataTransformation:
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
             logging.info("saving transformed training and test data")
+            os.makedirs(os.path.dirname(self.data_transformation_config.transformed_train_file_path),exist_ok=True)
+            os.makedirs(os.path.dirname(self.data_transformation_config.transformed_test_file_path),exist_ok=True)
             np.save(self.data_transformation_config.transformed_train_file_path, training_arr)
             np.save(self.data_transformation_config.transformed_test_file_path, test_arr)
 
