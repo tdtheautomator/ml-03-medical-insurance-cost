@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from src.exception.custom_exception import CustomException
 from src.logging.custom_logger import logging
 from src.config.config_variables import DataIngestionConfig
-from src.config.artifacts_shema import DataIngestionArtifact
+from src.config.artifacts_schema import DataIngestionArtifact
 
 class DataIngestion:
     def __init__(self,data_ingestion_config:DataIngestionConfig):

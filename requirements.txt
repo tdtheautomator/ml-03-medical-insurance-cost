@@ -10,4 +10,5 @@ dill
 mlflow
 python-box
 evidently
+apache-airflow
 -e .

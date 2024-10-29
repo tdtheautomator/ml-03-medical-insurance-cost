@@ -3,7 +3,7 @@ import sys
 import time
 from src.exception.custom_exception import CustomException
 from src.logging.custom_logger import logging
-from src.config.artifacts_shema import RegressionModelMetrics
+from src.config.artifacts_schema import RegressionModelMetrics
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, root_mean_squared_error
 
 

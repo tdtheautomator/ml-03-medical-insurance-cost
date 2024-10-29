@@ -36,3 +36,6 @@ OUT_MODEL_FILE_NAME: str = "trained_model.pkl"
 MLFLOW_TRACKING_URI: str = "http://127.0.0.1:5000/"
 MLFLOW_EXP_NAME:str = "Medical Insurance"
 MLFLOW_REG_MODLE_NAME:str = "medical-insurance-predictor"
+
+# Training Pipeline Variables
+TARIN_PIPELINE_NAME: str = "MedicalInsurance"

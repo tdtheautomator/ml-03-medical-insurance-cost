@@ -6,7 +6,7 @@ import pandas as pd
 from src.exception.custom_exception import CustomException
 from src.logging.custom_logger import logging
 from src.config.config_variables import DataValidationConfig
-from src.config.artifacts_shema import DataValidationArtifact, DataIngestionArtifact
+from src.config.artifacts_schema import DataValidationArtifact, DataIngestionArtifact
 from src.helper.common import read_yaml
 from evidently.metric_preset import DataDriftPreset
 from evidently.report import Report

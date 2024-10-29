@@ -14,7 +14,7 @@ from src.logging.custom_logger import logging
 from src.helper.common import save_object, read_yaml
 
 from src.config.config_variables import DataTransformationConfig
-from src.config.artifacts_shema import DataTransformationArtifact, DataValidationArtifact
+from src.config.artifacts_schema import DataTransformationArtifact, DataValidationArtifact
 
 class DataTransformation:
     def __init__(self,data_validation_artifact:DataValidationArtifact,

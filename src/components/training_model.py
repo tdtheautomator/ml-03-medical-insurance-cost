@@ -12,7 +12,7 @@ from src.helper.common import save_object, load_np_array
 from src.helper.ml_models.evaluate import evaluate_reg_model_perf
 from src.helper.ml_metrics.metrics import regression_metrics
 from src.config.config_variables import TrainingModelConfig
-from src.config.artifacts_shema import TrainingModelArtifact, DataTransformationArtifact
+from src.config.artifacts_schema import TrainingModelArtifact, DataTransformationArtifact
 
 class TrainingModel:
     def __init__(self,data_transformation_artifact:DataTransformationArtifact,training_model_config:TrainingModelConfig):
