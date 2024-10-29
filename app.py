@@ -5,7 +5,6 @@ import time
 from src.exception.custom_exception import CustomException
 from src.logging.custom_logger import logging
 from src.pipelines.training_pipeline import TrainingPipeline
-from src.helper.common import load_object
 
 import certifi
 ca = certifi.where()

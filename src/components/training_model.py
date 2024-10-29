@@ -79,9 +79,10 @@ class TrainingModel:
             logging.info("saving trained model objects")
             save_object(file_path=self.training_model_config.trained_model_file_path,obj=best_model)
             if vars.PUSH_FINAL_ARTIFACTS:
-                destination: str=os.path.join(vars.OUT_DIR,vars.FINAL_ARTIFACTS_DIR)
-                os.makedirs(os.path.dirname(destination),exist_ok=True)
-                shutil.copyfile(self.training_model_config.trained_model_file_path,destination)
+                destination: str=os.path.join(vars.OUT_DIR,vars.FINAL_ARTIFACTS_DIR,vars.FINAL_TRAINED_MODEL)
+                if os.path.isfile(destination):
+                    os.remove(destination)
+                save_object(file_path=destination,obj=best_model)
             logging.info("completed model training")
             trained_model_artifact = TrainingModelArtifact(
                 trained_model_file_path=self.training_model_config.trained_model_file_path,

@@ -32,7 +32,6 @@ class TrainingPipeline:
             data_ingestion_end_time = time.time()
             data_ingestion_time = round((data_ingestion_end_time - data_ingestion_start_time),2)
             logging.info(f"data ingestion completed in {data_ingestion_time} secs")
-            logging.info({dataIngestionOutput})
             return dataIngestionOutput
         except Exception as e:
             logging.error(e)
@@ -48,7 +47,6 @@ class TrainingPipeline:
             data_validation_end_time = time.time()
             data_validation_time = round((data_validation_end_time - data_validation_start_time),2)
             logging.info(f"data validation completed in {data_validation_time} secs")
-            logging.info({dataValidationOutput})
             return dataValidationOutput
         except Exception as e:
             logging.error(e)
@@ -64,7 +62,6 @@ class TrainingPipeline:
             data_transformation_end_time = time.time()
             data_transformation_time = round((data_transformation_end_time - data_transformation_start_time),2)
             logging.info(f"data transformation completed in {data_transformation_time} secs")
-            logging.info({dataTransformationOutput})
             return dataTransformationOutput
         except Exception as e:
             logging.error(e)
@@ -80,7 +77,6 @@ class TrainingPipeline:
             model_training_end_time = time.time()
             model_training_time = round((model_training_end_time - model_training_start_time),2)
             logging.info(f"model training completed in {model_training_time} secs")
-            logging.info({TrainModelOutput})
             return TrainModelOutput
         except Exception as e:
             logging.error(e)
@@ -88,7 +84,7 @@ class TrainingPipeline:
         
     def start_training_pipeline(self):
         try:
-            data_ingestion_artifact = self.start_data_ingestion
+            data_ingestion_artifact = self.start_data_ingestion()
             data_validation_artifact=self.start_data_validation(dataIngestionOutput=data_ingestion_artifact)
             data_transformation_artifact=self.start_data_transformation(dataValidationOutput=data_validation_artifact)
             training_model_artifact=self.start_model_training(dataTransformationOutput=data_transformation_artifact)
@@ -96,4 +92,11 @@ class TrainingPipeline:
         except Exception as e:
             logging.error(e)
             raise CustomException(e,sys)
-                
+
+if __name__=='__main__':
+    try:
+        train_pipeline=TrainingPipeline()
+        train_pipeline.start_training_pipeline()
+    except Exception as e:
+                logging.error(e)
+                raise CustomException(e,sys)

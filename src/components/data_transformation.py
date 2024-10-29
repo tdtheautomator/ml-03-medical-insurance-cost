@@ -117,9 +117,11 @@ class DataTransformation:
                 obj=preprocessing_obj
             )
             if vars.PUSH_FINAL_ARTIFACTS:
-                destination: str=os.path.join(vars.OUT_DIR,vars.FINAL_ARTIFACTS_DIR)
-                os.makedirs(os.path.dirname(destination),exist_ok=True)
-                shutil.copyfile(self.data_transformation_config.encoded_file_path,destination)
+                destination: str=os.path.join(vars.OUT_DIR,vars.FINAL_ARTIFACTS_DIR,vars.FINAL_ENCODED_FILE)
+                if os.path.isfile(destination):
+                    os.remove(destination)
+                save_object(file_path=destination,obj=preprocessing_obj
+            )
             logging.info("data transformation completed")
 
             data_transformation_artifact=DataTransformationArtifact(
