@@ -13,4 +13,5 @@ evidently
 fastapi
 uvicorn
 python-multipart
+streamlit
 -e .
