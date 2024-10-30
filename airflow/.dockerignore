@@ -11,3 +11,5 @@ venv/
 temp/
 ml_03_medical_insurance_cost.egg-info/
 images/
+outputs/
+.git/
