@@ -53,7 +53,7 @@ def data_transformation(**context):
             logging.info("initiated data transformation")
             data_transformation_start_time = time.time()
             varsConfig = VarsConfig()
-            dataValidationOutput = context['ti'].xcom_pull(key='output', task_ids='data_ingestion')
+            dataValidationOutput = context['ti'].xcom_pull(key='output', task_ids='data_validation')
             dataTransformationConfig=DataTransformationConfig(varsConfig)
             dataTransformation=DataTransformation(dataValidationOutput,dataTransformationConfig)
             dataTransformationOutput=dataTransformation.initiate_data_transformation()
@@ -70,8 +70,8 @@ def model_training(**context):
             logging.info("initiated model training")
             model_training_start_time = time.time()
             dataTransformationOutput = context['ti'].xcom_pull(key='output', task_ids='data_transformation')
-            TrainModelConfig=TrainingModelConfig(varsConfig)
             varsConfig = VarsConfig()
+            TrainModelConfig=TrainingModelConfig(varsConfig)
             TrainModel=TrainingModel(dataTransformationOutput,TrainModelConfig)
             trainModelOutput=TrainModel.initiate_training_model()
             model_training_end_time = time.time()
@@ -86,7 +86,7 @@ def model_training(**context):
 with DAG(
     'medical-insurance-pipeline',
     start_date=datetime(2024,1,1),
-    schedule_interval="@daily",
+    schedule_interval=None,
     catchup=False
 ) as dag:
     
