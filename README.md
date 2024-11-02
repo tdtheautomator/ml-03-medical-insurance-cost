@@ -66,10 +66,10 @@ pip install -r requirements.txt
 ```
   python fastapi\app.py
 ```
-- Run Streamlit (http://127.0.0.1:8081/)
+- Run Streamlit (http://127.0.0.1:8081/  http://127.0.0.1:8082/)
 ```
-streamlit run \streamlit\app.py --server.port 8080
-streamlit run \streamlit\bulk_prediction.py --server.port 8081
+streamlit run \streamlit\app.py --server.port 8081
+streamlit run \streamlit\bulk_prediction.py --server.port 8082
 ```
 - Run MLFlow (default: http://127.0.0.1:5000)
 ```
