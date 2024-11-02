@@ -74,8 +74,8 @@ airflow dags list
 
 1. Move\Copy src to ml-project (or any equivalent)
 2. Update airflow.cfg
-   dags_folder
-   allowed_deserialization_classes
+   - dags_folder
+   - allowed_deserialization_classes
 
 ## Execution
 ```
