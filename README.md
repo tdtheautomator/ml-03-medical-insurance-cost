@@ -15,12 +15,9 @@ The project is created for learning purposes incorporating several methods.
 8. Scheduling training pipeline using airflow
 
 
-
-
 ## Dataset
 This is a simple dataset to detect medical insurance charge prediciton (without existing medical history and family histor.
 Sample dataset is used form [Kaggle](https://www.kaggle.com/)<br />
-
 
  - dataset shape : Rows : 1338 , Columns : 7<br />
  - numerical features : 4 : ['age', 'bmi', 'children', 'charges']
@@ -35,6 +32,10 @@ Sample dataset is used form [Kaggle](https://www.kaggle.com/)<br />
 2. Decision Tree Regresso
 3. Random Forest Regressor
 
+### Encoding
+1. Simple Imputer (medial) and Standard Scaler for numerical features
+2. Simple Imputer (most_frequent), Standard Scaler and One Hot Encoding for categorical features
+   
 ### Performance Metrics
 1. MAE (Mean Absolute Error)
 2. MSE (Mean Squared Error)
@@ -62,6 +63,11 @@ pip install -r requirements.txt
 ```
 
 - Variables can be updated at ./src/vars/__init__.py
+- Run MLFlow (default: http://127.0.0.1:5000)
+```
+  mlflow ui
+```
+
 - Run FastAPI (default: http://127.0.0.1:8000/)
 ```
   python fastapi\app.py
@@ -71,11 +77,8 @@ pip install -r requirements.txt
 streamlit run \streamlit\app.py --server.port 8081
 streamlit run \streamlit\bulk_prediction.py --server.port 8082
 ```
-- Run MLFlow (default: http://127.0.0.1:5000)
-```
-  mlflow ui
-```
 
+- For Airflow refer [README](https://github.com/tdtheautomator/ml-03-medical-insurance-cost/blob/main/airflow/README.md)
 
 ## Notes
 - Detailed logging is available under ./logs
