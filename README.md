@@ -1,3 +1,4 @@
+![Project 03](images/image.png)
 # Medical Insurance Charge Prediction (Regression)
 
 The project is created for learning purposes incorporating several methods.
